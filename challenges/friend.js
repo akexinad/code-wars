@@ -6,3 +6,7 @@ function friend(friends) {
 
     return friends.filter( friend => friend.length === 4 );
 }
+
+// BEST SOLUTION
+
+// Mine without the error handling.
