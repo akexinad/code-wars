@@ -34,40 +34,59 @@ thirt(1234567) calculates 178, then 87, then 87 and returns 87.
 
 thirt(321) calculates 48, 48 and returns 48
 
+Test.assertEquals(thirt(8529), 79)
+Test.assertEquals(thirt(85299258), 31)
+Test.assertEquals(thirt(5634), 57)
+Test.assertEquals(thirt(1111111111), 71)
+Test.assertEquals(thirt(987654321), 30)
+
 */
 
 function thirt(n) {
     const INTEGERS = [1, 10, 9, 12, 3, 4];
-    let num = n;
-    let initialSum = 0;
+    let numFromArg = n;
+    let startingSum = 0;
     let newSum = 0;
     
-    while (initialSum !== newSum) {
-        let numStrReversed = num.toString().split('').reverse();
+    while (true) {
+        let numStrReversed = numFromArg.toString().split('').reverse();
 
         for (let i = 0; i < numStrReversed.length; i++) {
             
-            const nInt = Number(nStrReversed[i]);
+            const nInt = Number(numStrReversed[i]);
     
             if (INTEGERS[i] === undefined) {
-                newSum += nInt * INTEGERS[INTEGERS.length - i];
+                newSum += nInt * INTEGERS[i - INTEGERS.length];
             } else {
                 newSum += nInt * INTEGERS[i];
             }
         }
-
-        if (newSum === initialSum) {
+    
+        if (newSum === startingSum) {
             return newSum;
         } else {
-            initialSum = newSum;
-            num = newSum;
+            startingSum = newSum;
+            numFromArg = newSum;
             newSum = 0; 
         }
     }
-
-    return newSum;
 }
 
 const foo = thirt(1234567);
+const bar = thirt(1111111111);
+const baz = thirt(987654321);
 
 console.log(foo);
+console.log(bar);
+console.log(baz);
+
+
+
+// BEST ANSWER
+// ===========
+
+function thirt(n) {
+    const nums = [1,10,9,12,3,4]
+    var sum = (''+n).split('').reverse().reduce((sum,v,i) => sum + v * nums[i%nums.length], 0)
+    return sum === n ? n : thirt(sum)
+  }
