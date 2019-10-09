@@ -34,12 +34,13 @@ function stockList(listOfArt, listOfCat){
      
     const arrListOfArt = listOfArt;
     const arrListOfCat = listOfCat;
-    let result = arrListOfCat.map(article => {
+    let obj = arrListOfCat.map(item => {
         return {
-            article,
+            category: item,
             quantity: 0
         }
-    })
+    });
+    let result = [];
 
     for (let i = 0; i < arrListOfCat.length; i++) {
 
@@ -51,8 +52,8 @@ function stockList(listOfArt, listOfCat){
             const articleCode = Number(articleSplit[1]);
 
             if (category === articleCategory) {
-                const categoryToSum = result.find(category => {
-                    return category.article === articleCategory
+                const categoryToSum = obj.find(item => {
+                    return item.category === articleCategory
                 });
 
                 categoryToSum.quantity += articleCode;
@@ -61,7 +62,16 @@ function stockList(listOfArt, listOfCat){
         })
     }
 
-    return result;
+    obj.forEach(item => {
+
+        if (item.quantity === 0) {
+            return;
+        }
+        
+        result.push(`(${item.category} : ${item.quantity})`)
+    });
+
+    return result.join(' - ');
 }
 
 const b = ["ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"];
