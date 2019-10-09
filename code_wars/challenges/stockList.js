@@ -30,11 +30,11 @@ In the result codes and their values are in the same order as in M.
 
 */
 
-function stockList(listOfArt, listOfCat){
+function stockList(listOfArt, listOfCat) {
      
     const arrListOfArt = listOfArt;
     const arrListOfCat = listOfCat;
-    let obj = arrListOfCat.map(item => {
+    let bookQtys = arrListOfCat.map(item => {
         return {
             category: item,
             quantity: 0
@@ -52,23 +52,25 @@ function stockList(listOfArt, listOfCat){
             const articleCode = Number(articleSplit[1]);
 
             if (category === articleCategory) {
-                const categoryToSum = obj.find(item => {
+                const categoryToSum = bookQtys.find(item => {
                     return item.category === articleCategory
                 });
 
                 categoryToSum.quantity += articleCode;
             }
-            
         })
     }
 
-    obj.forEach(item => {
+    const noResults = bookQtys.filter(book => {
+        return book.quantity !== 0;
+    });
 
-        if (item.quantity === 0) {
-            return;
-        }
-        
-        result.push(`(${item.category} : ${item.quantity})`)
+    if (noResults.length === 0) {
+        return '';
+    }
+    
+    bookQtys.forEach(book => {
+        result.push(`(${book.category} : ${book.quantity})`)
     });
 
     return result.join(' - ');
@@ -77,6 +79,30 @@ function stockList(listOfArt, listOfCat){
 const b = ["ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"];
 const c = ["A", "B"];
 
+const d = ["ABAR 200", "CDXE 500", "FKWR 250", "GTSQ 890"];
+const e = ["B", "R", "D", "X"];
+
 const foo = stockList(b, c);
+const bar = stockList(d, e);
 
 console.log(foo);
+console.log(bar);
+
+
+
+// BEST ANSWER
+// ===========
+
+function stockList(listOfArt, listOfCat) {
+    var qs = {};
+    if (!listOfArt.length) return '';
+  
+    listOfArt.forEach(function(art) {
+      var cat = art[0];
+      qs[cat] = (qs[cat] | 0) + +art.split(' ')[1];
+    });
+  
+    return listOfCat.map(function(c) {
+      return '(' + c + ' : ' + (qs[c] | 0) + ')';  
+    }).join(' - ');  
+}
