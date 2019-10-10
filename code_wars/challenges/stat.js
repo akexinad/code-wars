@@ -36,22 +36,67 @@ if the given string is "" you will return ""
 
 function stat(strg) {
     const arrTimes = strg.replace(/\|/g, ':').split(', ');
-    // const time = new Date();
-
-    arrTimes.forEach(str => {
-        
-        console.log(t);
-        
-    })
+    let timesInSeconds = [];
     
+    function sortNumber(a, b) {
+        return a - b;
+    }
 
-    return arrTimes;
+    function add(total, num) {
+        return total + num;
+    }
+
+    arrTimes.forEach(time => {
+        const timesSplit = time.split(":")
+
+        const hours = +timesSplit[0] * Math.pow(60, 2);
+        const minutes = +timesSplit[1] * 60;
+        const seconds = +timesSplit[2];
+
+        timesInSeconds.push(hours + minutes + seconds)
+    });
+
+    const lastIndex = timesInSeconds.length - 1;
+
+    timesInSeconds.sort(sortNumber);
+
+    const range = timesInSeconds[lastIndex] - timesInSeconds[0];
+    const mean = Math.round((timesInSeconds.reduce(add)) / timesInSeconds.length);
+
+    let median;
+
+    if (timesInSeconds.length % 2 === 0) {
+        const lowMedian = timesInSeconds[timesInSeconds.length / 2];
+        const highMedian = timesInSeconds[timesInSeconds.length / 2 + 1];
+
+        median = (lowMedian + highMedian) / 2;
+    } else {
+        median = timesInSeconds[Math.floor(timesInSeconds.length / 2)];
+    }
+    
+    const arrSeconds = [range, mean, median];
+
+    const data = [];
+    
+    arrSeconds.forEach(item => {
+        let hours = Math.floor(item / 3600).toString();
+        let minutes = Math.floor(item % 3600 / 60).toString();
+        let seconds = Math.floor(item % 3600 % 60).toString();
+        
+        hours.length === 1 ? hours = hours.padStart(2, '0') : hours;
+        minutes.length === 1 ? minutes = minutes.padStart(2, '0') : minutes;
+        seconds.length === 1 ? seconds = seconds.padStart(2, '0') : seconds;
+        
+        data.push(`${hours}|${minutes}|${seconds}`);
+    });
+
+    return `Range: ${data[0]} Average: ${data[1]} Median: ${data[2]}`;
 }
 
-const foo = stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17");
-const bar = stat("02|15|59, 2|47|16, 02|17|20, 2|32|34, 2|17|17, 2|22|00, 2|31|41");
+const foo = stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17, 1|44|44");
+// const bar = stat("02|15|59, 2|47|16, 02|17|20, 2|32|34, 2|17|17, 2|22|00, 2|31|41");
 // const baz = stat("hello-world-from-yes");
 
 console.log(foo);
-console.log(bar);
+// console.log(bar);
 // console.log(baz);
