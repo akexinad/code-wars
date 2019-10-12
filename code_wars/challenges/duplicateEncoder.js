@@ -15,44 +15,48 @@ Assertion messages may be unclear about what they display in some languages. If 
 
 function duplicateEncode(word){
     const arrWord = word.toLowerCase().split('');
-    let count = 0;
-    let arrParen = [];
+    let result = [];
     
-    while (count < arrWord.length) {
-        let match = false;
-        
-        for (let i = 0; i < arrWord.length; i++) {
-            let char = arrWord[i];
-            let charCount = 0;
-            console.log('the character', char);
+    for (let i = 0; i < arrWord.length; i++) {
+        let char = arrWord[i];
+        let charCount = 0;
 
-            arrWord.forEach(letter => {
-                console.log('the letter', letter);
-                
-                if (letter === char) {
-                    charCount ++;
-                }
-            })
-
-            console.log(charCount);
-
-            if (charCount > 1) {
-                match = true;
+        arrWord.forEach(letter => {
+            if (letter === char) {
+                charCount ++;
             }
-        }
+        })
 
-        if (match === true) {
-            arrParen.push(')');
+        if (charCount > 1) {
+            result.push(')');
         } else {
-            arrParen.push('(');
+            result.push('(');
         }
-
-        count ++;
     }
 
-    return arrParen.join('');
+    return result.join('');
 }
 
-const foo = duplicateEncode('ReCede');
+const foo = duplicateEncode('(( @');
 
 console.log(foo);
+
+
+
+
+// BEST ANSWER
+// ===========
+
+function duplicateEncode2(word){
+    return word
+      .toLowerCase()
+      .split('')
+      .map( function (a, i, w) {
+        return w.indexOf(a) == w.lastIndexOf(a) ? '(' : ')'
+      })
+      .join('');
+}
+
+const bar = duplicateEncode2('recede');
+
+console.log(bar);
