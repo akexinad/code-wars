@@ -72,9 +72,9 @@ function play(el) {
 function checkStatus() {
 
 
-    if (isDraw()) {
+    if (isWinner()) {
         return false;
-    } else if (isWinner()) {
+    } else if (isDraw()) {
         return false;
     }
     
@@ -98,7 +98,7 @@ function isWinner() {
             currentChoices.includes(y) &&
             currentChoices.includes(z)
         ) {
-            console.log('WINNER');
+            console.log(`${currentTurn.toUpperCase()} IS THE WINNER!`);
             return true;
         }
     }
