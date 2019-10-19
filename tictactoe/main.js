@@ -1,9 +1,11 @@
-const board = [];
-const x = 'X';
-const o = 'O';
+const selections = [];
+const x = 'x';
+const o = 'o';
 let currentTurn = x;
-const xChoices = [];
-const oChoices = [];
+const choices = {
+    x: [],
+    o: []
+}
 
 const winningCombinations = 
 [
@@ -17,74 +19,98 @@ const winningCombinations =
     [2, 4, 6]
 ];
 
-console.log(winningCombinations);
-
-const elements = document.getElementsByTagName('td')
-
-
-for (let i = 0; i < elements.length; i++) {
-
-    const el = elements[i];
-
-    el.addEventListener('click', () => {
-
-        play(el.id);
-
-        if (currentTurn === x) {
-            currentTurn = o;
-        } else {
-            currentTurn = x;
-        }
-    });
+function init() {
+    const elements = document.getElementsByTagName('td')
+    
+    for (let i = 0; i < elements.length; i++) {
+    
+        const el = elements[i];
+    
+        el.addEventListener('click', () => {
+            play(el);
+        });
+    }
 }
 
-function play(id) {
-    
-    let status;
+init()
 
-    console.log(board[9]);
-    
-    
-    if (board[id] !== undefined) {
-        console.log(`Box ${id} Is Already Taken!`);
-        return;
-    }
+function play(el) {
 
-    board[id] = currentTurn;
+    tagBox(el);
+
+    const id = Number(el.id);
+
+    isBoxTaken(id);
     
     function sortIds(a, b) {
         return a - b;
     }
     
-    if (currentTurn === x) {
-        xChoices.push(Number(id))
-        xChoices.sort(sortIds);
-        status = checkStatus(xChoices);
-    } else {
-        oChoices.push(Number(id))
-        oChoices.sort(sortIds);
-        status = checkStatus(oChoices);
-    }
+    choices[currentTurn].push(id);
 
-    
+    checkStatus();
 }
 
-function checkStatus(choices) {
+function isBoxTaken(id) {
+    if (selections[id] !== undefined) {
+        console.log(`Box ${id} Is Already Taken!`);
+        return;
+    }
+
+    selections[id] = currentTurn;
+}
+
+function checkStatus() {
+
+    const drawStatus = isDraw();
+    let winner = isWinner();
+
+    if (winner) {
+        return;
+    } else if (drawStatus) {
+        return;
+    }
+
+    if (currentTurn === x) {
+        currentTurn = o;
+    } else {
+        currentTurn = x;
+    }
+}
+
+function isWinner() {
+
+    const winningCombination = [];
+    
     for (let i = 0; i < winningCombinations.length; i++) {
         const combination = winningCombinations[i];
-        
-        if (choices[0] === combination[0] &&
-            choices[1] === combination[1] &&
-            choices[2] === combination[2]
-        ) {
-            console.log(`${ currentTurn } IS THE WINNER!`);
-            return true;
-        } else if (board.length === 9) {
-            console.log('DRAW');
-            return false;
-        }
-    }
-    
 
-    return 'no winner chicken dinner.';
+        for (let i = 0; i < combination.length; i++) {
+
+            if (choices[currentTurn].includes(combination[i])) {
+                winningCombination.push(combination[i]);
+            }
+        }
+
+        console.log(winningCombination);
+    }
+}
+
+function isDraw() {
+
+    const drawBoard = [];
+
+    selections.forEach(selection => {
+        drawBoard.push(selection);
+    })
+
+    if (drawBoard.length > 8) {
+        return true;
+    }
+
+    return false;
+}
+
+function tagBox(el) {
+    el.innerHTML = currentTurn.toLocaleUpperCase();
 }
