@@ -7,7 +7,6 @@ const choices = {
     o: []
 }
 
-const elements = document.getElementsByTagName('td')
 
 const winningCombinations = 
 [
@@ -25,29 +24,14 @@ function sortIds(a, b) {
     return a - b;
 }
 
-function init() {
-    
-    for (let i = 0; i < elements.length; i++) {
-    
-        const el = elements[i];
-    
-        el.addEventListener('click', () => {
-            play(el);
-        });
-    }
-}
-
-init()
-
 function play(el) {
     const id = Number(el.id);
-    const boxTaken = isBoxTaken(id);
 
     if (!checkStatus()) {
         return;
     }
     
-    if (boxTaken) {
+    if (isboxTaken(id)) {
         console.log(`Box ${id} Is Already Taken!`);
         return;
     }
@@ -70,8 +54,6 @@ function play(el) {
 }
 
 function checkStatus() {
-
-
     if (isWinner()) {
         return false;
     } else if (isDraw()) {
@@ -88,7 +70,6 @@ function isBoxTaken(id) {
 }
 
 function isWinner() {
-
     const currentChoices = choices[currentTurn];
     
     for (let i = 0; i < winningCombinations.length; i++) {
@@ -107,7 +88,6 @@ function isWinner() {
 }
 
 function isDraw() {
-
     const drawBoard = [];
 
     selections.forEach(selection => {
@@ -122,8 +102,23 @@ function isDraw() {
     return false;
 }
 
-function fillBox(id) {
-    const element = document.getElementById(id);
+// PRESENTATION LOGIC
 
-    element.innerHTML = currentTurn.toUpperCase();
+const elements = document.getElementsByTagName('td')
+
+function addClickEvent() {
+    for (let i = 0; i < elements.length; i++) {
+    
+        const el = elements[i];
+    
+        el.addEventListener('click', () => {
+            play(el);
+        });
+    }
+}
+
+addClickEvent();
+
+function fillBox(id) {
+    elements[id].innerHTML = currentTurn.toUpperCase();
 }
