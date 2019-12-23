@@ -1,7 +1,7 @@
 // FIZZBUZZ
 
-function fizzBuzz(num = 100) {
-    while (num > 0) {
+function fizzBuzz(num = 1) {
+    while (num < 100) {
         if (num % 3 == 0) {
             console.log('fizz');
         }
@@ -13,7 +13,7 @@ function fizzBuzz(num = 100) {
         } else {
             console.log(num);
         }
-        return fizzBuzz(num - 1)
+        return fizzBuzz(num + 1)
     }
 }
 
