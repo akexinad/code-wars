@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "lite-server",
+    "dev": "nodemon recursionExercises/arraySum.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lite-server": "^2.5.3"
+    "lite-server": "^2.5.3",
+    "nodemon": "^2.0.2"
   }
 }
