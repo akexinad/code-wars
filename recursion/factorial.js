@@ -5,16 +5,13 @@
 // var factorial = function(n) {
 // };
 
-function factorial(result, num) {
-    let result;
-    
+function factorial(num, result = 1) {
     while (num > 0) {
-        result = num * (num - 1);
-        
-        if (num === 1) console.log(result);
-        
-        return factorial(result, num - 2);
+        result *= num;
+        return factorial(num - 1, result);
     }
+    return result;
 }
 
-factorial(5);
+const foo = factorial(6);
+console.log(foo);
