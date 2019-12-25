@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lite-server",
-    "dev": "nodemon recursionExercises/sumBelow.js",
+    "dev": "nodemon recursionExercises/range.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
