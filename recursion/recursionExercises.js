@@ -67,8 +67,8 @@ var palindrome = function(string) {
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
-var multiply = function(x, y) {
-};
+// var multiply = function(x, y) {
+// };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods.
