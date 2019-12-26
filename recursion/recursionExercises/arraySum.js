@@ -7,7 +7,6 @@ const array = [1, [2, 3], [[4]], 5, [[6, [7]]], [[[[[8]]]]]];
 
 function arraySum(arr, result = 0) {
     const newArr = [...arr];
-
     const firstItem = newArr[0];
 
     while (newArr.length > 0) {

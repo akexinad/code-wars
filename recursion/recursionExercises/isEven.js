@@ -2,9 +2,7 @@
 // var isEven = function(n) {
 // };
 
-
 function isEven(num) {
-    
     num % 2 === 0 ? "Is Even" : "Is Odd";
 }
 
