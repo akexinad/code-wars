@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lite-server",
-    "dev": "nodemon recursionExercises/palindrome.js",
+    "dev": "nodemon recursion_exercises/gcd.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
